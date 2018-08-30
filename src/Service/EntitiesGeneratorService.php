@@ -105,6 +105,7 @@ class EntitiesGeneratorService
 
         // Let's add the ZohoID property
         self::registerProperty($class, 'zohoId', "The ID of this record in Zoho\nType: string\n", 'string');
+        self::registerProperty($class, 'layout', "The Layout of this record in Zoho\nType: string\n", 'string');
 
         $usedIdentifiers = [];
 
