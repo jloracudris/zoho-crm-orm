@@ -146,6 +146,8 @@ abstract class AbstractZohoDao
 
             $fl = $row->addChild('FL', $zohoBean->getZohoId());
             $fl->addAttribute('val', 'Id');
+            $fl = $row->addChild('FL', $zohoBean->getLayout());
+            $fl->addAttribute('val', 'Layout');
 
             foreach ($properties as $name => $params) {
                 $camelCaseName = $params['name'];
