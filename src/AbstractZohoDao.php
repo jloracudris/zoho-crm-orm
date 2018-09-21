@@ -6,6 +6,7 @@ use Wabel\Zoho\CRM\Exception\ZohoCRMException;
 use Wabel\Zoho\CRM\Exception\ZohoCRMResponseException;
 use Wabel\Zoho\CRM\Exception\ZohoCRMUpdateException;
 use Wabel\Zoho\CRM\Request\Response;
+use Wabel\Zoho\CRM\SimpleXMLExtended;
 
 /**
  * Base class that provides access to Zoho through Zoho beans.
@@ -133,7 +134,7 @@ abstract class AbstractZohoDao
         $module = $this->getModule();
 
         $no = 1;
-        $module = new \SimpleXMLElement("<$module/>");
+        $module = new SimpleXMLExtended("<$module/>");
 
         foreach ($zohoBeans as $zohoBean) {
             if (!$zohoBean instanceof ZohoBeanInterface) {
@@ -180,7 +181,7 @@ abstract class AbstractZohoDao
                     }
                 }
 
-                $fl = $row->addChild('FL', htmlspecialchars($value));
+                $fl = $row->addCData('FL', htmlspecialchars($value));
                 $fl->addAttribute('val', $name);
             }
             ++$no;
