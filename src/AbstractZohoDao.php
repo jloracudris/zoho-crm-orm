@@ -181,7 +181,7 @@ abstract class AbstractZohoDao
                     }
                 }
 
-                $fl = $row->addCData('FL', htmlspecialchars($value));
+                $fl = $row->addCData('FL', $value);
                 $fl->addAttribute('val', $name);
             }
             ++$no;
