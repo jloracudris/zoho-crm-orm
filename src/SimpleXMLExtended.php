@@ -1,6 +1,6 @@
 <?php 
 namespace Wabel\Zoho\CRM;
-class SimpleXMLExtended extends SimpleXMLElement {
+class SimpleXMLExtended extends \SimpleXMLElement {
   public function addCData($name, $value = NULL) {
     $new_child = $this->addChild($name);
 
