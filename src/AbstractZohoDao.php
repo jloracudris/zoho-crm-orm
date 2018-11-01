@@ -529,6 +529,25 @@ abstract class AbstractZohoDao
     }
 
     /**
+     * Implements updateRelatedRecords API method.
+     *
+     * @param array $beans     The list of beans to update.
+     * @param bool  $wfTrigger Set value as true to trigger the workflow rule in Zoho
+     *
+     * @return Response The Response object
+     *
+     * @throws ZohoCRMException
+     */
+    public function updateRelatedRecords(AbstractZohoDao $dao, $id = null, $relatedModule = null)
+    {
+        $records = [];
+
+        $xmlData = $this->toXml([$dao]);                
+        $response = $this->zohoClient->updateRelatedRecords($this->getModule(), $xmlData, $id, $relatedModule);
+        /* $records = array_merge($records, $response->getRecords()); */
+    }
+
+    /**
      * Implements uploadFile API method.
      *
      * @param string $id      Zoho Id of the record to retrieve
