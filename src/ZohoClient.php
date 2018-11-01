@@ -231,7 +231,7 @@ class ZohoClient
             $params['toIndex'] = $toIndex;
         }
 
-        return $this->call($module, 'getRelatedRecords', $params);
+        return $this->callRelated($module, 'getRelatedRecords', $params);
     }
 
     /**
@@ -358,6 +358,35 @@ class ZohoClient
     }
 
     /**
+     * Implements updateRelatedRecords API method.
+     *
+     * @param $module
+     * @param \SimpleXMLElement $xmlData
+     * @param string            $id
+     * @param bool              $wfTrigger
+     *
+     * @return Response
+     *
+     * @throws ZohoCRMResponseException
+     */
+    public function updateRelatedRecords($module, $xmlData, $id = null, $relatedModule = null, $version = 4, $newFormat = 2)
+    {
+        $params['newFormat'] = $newFormat;
+        $params['version'] = $version;        
+        $params['xmlData'] = $xmlData->asXML();
+
+        if ($id) {
+            $params['id'] = $id;
+        }
+
+        if ($relatedModule) {
+            $params['relatedModule'] = $relatedModule;
+        }
+
+        return $this->call($module, 'updateRelatedRecords', $params, ['xmlData' => $xmlData->asXML()]);
+    }
+
+    /**
      * Implements uploadFile API method.
      *
      * @param $module
@@ -433,6 +462,40 @@ class ZohoClient
         } else {
             throw new ZohoCRMResponseException($zohoResponse);
         }
+    }
+
+    /**
+     * Make the call using the client.
+     *
+     * @param string                   $module  The module to use
+     * @param string                   $command Command to call
+     * @param array                    $params  Options
+     * @param \SimpleXMLElement|string $data    Data to send [optional]
+     * @param array                    $options Options to add for configurations [optional]
+     *
+     * @return Response
+     */
+    public function callRelated($module, $command, $getParams = array(), $postParams = array())
+    {
+        $getParams['authtoken'] = $this->authtoken;
+        $getParams['scope'] = 'crmapi';
+
+        $uri = $this->getRequestURI($module, $command);
+        if(isset($postParams['xmlData'])){
+            $postParams[]=[
+                'name' => 'xmlData',
+                'contents' => $postParams['xmlData']
+            ];
+            unset($postParams['xmlData']);
+        }
+
+        $response = $this->zohoRestClient->request('POST', $uri, ['query'=>$getParams,'multipart'=> $postParams]);
+        /* $zohoResponse = new Response((string)$response->getBody(), $module, $command);
+        if ($zohoResponse->ifSuccess()) {
+            return $zohoResponse;
+        } else {
+            throw new ZohoCRMResponseException($zohoResponse);
+        } */
     }
 
     /**
