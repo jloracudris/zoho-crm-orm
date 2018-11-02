@@ -538,13 +538,9 @@ abstract class AbstractZohoDao
      *
      * @throws ZohoCRMException
      */
-    public function updateRelatedRecords(AbstractZohoDao $dao, $id = null, $relatedModule = null)
+    public function updateRelatedRecords($xmlData, $id = null, $relatedModule = null)
     {
-        $records = [];
-
-        $xmlData = $this->toXml([$dao]);                
         $response = $this->zohoClient->updateRelatedRecords($this->getModule(), $xmlData, $id, $relatedModule);
-        /* $records = array_merge($records, $response->getRecords()); */
     }
 
     /**

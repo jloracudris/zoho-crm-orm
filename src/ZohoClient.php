@@ -231,7 +231,7 @@ class ZohoClient
             $params['toIndex'] = $toIndex;
         }
 
-        return $this->callRelated($module, 'getRelatedRecords', $params);
+        return $this->call($module, 'getRelatedRecords', $params);
     }
 
     /**
@@ -383,7 +383,7 @@ class ZohoClient
             $params['relatedModule'] = $relatedModule;
         }
 
-        return $this->call($module, 'updateRelatedRecords', $params, ['xmlData' => $xmlData->asXML()]);
+        return $this->callRelated($module, 'updateRelatedRecords', $params, ['xmlData' => $xmlData->asXML()]);
     }
 
     /**
@@ -489,13 +489,7 @@ class ZohoClient
             unset($postParams['xmlData']);
         }
 
-        $response = $this->zohoRestClient->request('POST', $uri, ['query'=>$getParams,'multipart'=> $postParams]);
-        /* $zohoResponse = new Response((string)$response->getBody(), $module, $command);
-        if ($zohoResponse->ifSuccess()) {
-            return $zohoResponse;
-        } else {
-            throw new ZohoCRMResponseException($zohoResponse);
-        } */
+        $response = $this->zohoRestClient->request('POST', $uri, ['query'=>$getParams,'multipart'=> $postParams]);       
     }
 
     /**
