@@ -82,6 +82,8 @@ abstract class AbstractZohoDao
                 $id = $record[$idName.'ID'];
             } elseif (isset($record[$idName.'_ID'])) {
                 $id = $record[$idName.'_ID'];
+            } elseif ($idName == 'PRICEBOOK') {
+                $id = $record['BOOKID'];
             } else {
                 $id = $record['Id'];
             }
